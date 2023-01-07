@@ -1,9 +1,11 @@
+// import { name, age } from "./bases/01-types";
+import { pokemon } from "./bases/02-objects";
+
 import "./style.css";
-import { name, age } from "./bases/01-types";
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
 
 app.innerHTML = `
-  <h1>Hello ${name} ${age} !</h1>
+  <h1>Hello ${pokemon.name} !</h1>
   <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
 `;
