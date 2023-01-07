@@ -15,3 +15,7 @@ export const pokemon2: IPokemon = {
   id: 2,
   name: "Bulbasaur",
 };
+
+export const pokemons: IPokemon[] = [];
+
+pokemons.push(pokemon, pokemon2);
