@@ -1,5 +1,11 @@
 import axios from "axios";
 
+//* interface *//
+import {
+  IPokeApiResponse,
+  Move,
+} from "../interfaces/pokeapi-response.interface";
+
 export class Pokemon {
   // public id: number;
   // public name: string;
@@ -23,8 +29,10 @@ export class Pokemon {
     console.log(`${this.name}, ${this.name}`);
   }
 
-  async getMoves() {
-    const { data } = await axios.get("https://pokeapi.co/api/v2/pokemon/4");
+  async getMoves(): Promise<Move[]> {
+    const { data } = await axios.get<IPokeApiResponse>(
+      "https://pokeapi.co/api/v2/pokemon/4"
+    );
 
     console.log(data.moves);
     return data.moves;
