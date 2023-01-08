@@ -1,10 +1,19 @@
 import axios from "axios";
 
+export class PokeApiFetchAdapter {
+  async get<T>(url: string): Promise<T> {
+    const resp = await fetch(url);
+    const data = resp.json();
+
+    return data as T;
+  }
+}
+
 export class PokeApiAdapter {
   private readonly axios = axios;
 
-  async get(url: string) {
-    const { data } = await this.axios.get(url);
+  async get<T>(url: string): Promise<T> {
+    const { data } = await this.axios.get<T>(url);
 
     return data;
   }
