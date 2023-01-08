@@ -1,5 +1,9 @@
 //* adapters *//
-import { PokeApiAdapter, PokeApiFetchAdapter } from "../api/pokeApi.adapter";
+import {
+  HttpAdapter,
+  PokeApiAdapter,
+  PokeApiFetchAdapter,
+} from "../api/pokeApi.adapter";
 
 //* interface *//
 import {
@@ -11,7 +15,7 @@ export class Pokemon {
   constructor(
     public readonly id: number,
     public name: string,
-    private readonly http: PokeApiAdapter
+    private readonly http: HttpAdapter
   ) {}
 
   get imageUrl(): string {
@@ -39,6 +43,6 @@ export class Pokemon {
 const pokeApiAxios = new PokeApiAdapter();
 const pokeApiFetch = new PokeApiFetchAdapter();
 
-export const charmander = new Pokemon(1, "Charmander", pokeApiAxios);
+export const charmander = new Pokemon(1, "Charmander", pokeApiFetch);
 
 charmander.getMoves();
