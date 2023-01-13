@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
+//* dtos *//
+import { CreateCartDto } from './dto/create-car.dto';
+
 //* interfaces *//
 import { ICar } from './interfaces/car.interface';
 
@@ -18,5 +21,12 @@ export class CarsService {
 
   public findOneById(id: string) {
     return this.cars.find((car) => car.id === id);
+  }
+
+  public create(createCarDto: CreateCartDto) {
+    const car: ICar = { id: uuid(), ...createCarDto };
+    this.cars.push(car);
+
+    return car;
   }
 }

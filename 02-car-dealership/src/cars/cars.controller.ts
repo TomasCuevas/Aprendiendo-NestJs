@@ -29,7 +29,6 @@ export class CarsController {
   @Get(':id')
   getCardById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     const car = this.carsService.findOneById(id);
-
     if (!car) throw new NotFoundException(`Car with id ${id}. Not found`);
 
     return car;
@@ -37,7 +36,7 @@ export class CarsController {
 
   @Post()
   createCar(@Body() createCarDto: CreateCartDto) {
-    return createCarDto;
+    return this.carsService.create(createCarDto);
   }
 
   @Patch(':id')
