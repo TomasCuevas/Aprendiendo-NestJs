@@ -9,6 +9,8 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
 //* dtos *//
@@ -18,6 +20,7 @@ import { CreateCartDto } from './dto/create-car.dto';
 import { CarsService } from './cars.service';
 
 @Controller('cars')
+@UsePipes(ValidationPipe)
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
 
