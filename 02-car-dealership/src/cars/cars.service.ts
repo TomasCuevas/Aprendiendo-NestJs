@@ -15,25 +15,25 @@ export class CarsService {
     { id: uuid(), brand: 'Honda', model: 'Civic' },
   ];
 
-  public findAll() {
+  findAll() {
     return this.cars;
   }
 
-  public findOneById(id: string) {
+  findOneById(id: string) {
     const car = this.cars.find((car) => car.id === id);
     if (!car) throw new NotFoundException(`Car with id ${id}. Not found`);
 
     return car;
   }
 
-  public create(createCarDto: CreateCartDto) {
+  create(createCarDto: CreateCartDto) {
     const car: ICar = { id: uuid(), ...createCarDto };
     this.cars.push(car);
 
     return car;
   }
 
-  public update(id: string, updateCarDto: UpdateCarDto) {
+  update(id: string, updateCarDto: UpdateCarDto) {
     let carDB = this.findOneById(id);
 
     this.cars = this.cars.map((car) => {
@@ -48,8 +48,12 @@ export class CarsService {
     return carDB;
   }
 
-  public delete(id: string) {
+  delete(id: string) {
     this.findOneById(id);
     this.cars = this.cars.filter((car) => car.id !== id);
+  }
+
+  fillCarsWithSeedData(cars: ICar[]) {
+    this.cars = cars;
   }
 }
