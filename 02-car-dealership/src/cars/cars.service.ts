@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
 //* dtos *//
@@ -20,7 +20,10 @@ export class CarsService {
   }
 
   public findOneById(id: string) {
-    return this.cars.find((car) => car.id === id);
+    const car = this.cars.find((car) => car.id === id);
+    if (!car) throw new NotFoundException(`Car with id ${id}. Not found`);
+
+    return car;
   }
 
   public create(createCarDto: CreateCartDto) {
@@ -43,5 +46,10 @@ export class CarsService {
     });
 
     return carDB;
+  }
+
+  public delete(id: string) {
+    this.findOneById(id);
+    this.cars = this.cars.filter((car) => car.id !== id);
   }
 }
