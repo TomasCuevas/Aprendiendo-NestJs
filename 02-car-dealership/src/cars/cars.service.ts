@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
 //* dtos *//
-import { CreateCartDto } from './dto/create-car.dto';
+import { CreateCartDto, UpdateCarDto } from './dto';
 
 //* interfaces *//
 import { ICar } from './interfaces/car.interface';
@@ -29,4 +29,6 @@ export class CarsService {
 
     return car;
   }
+
+  public update(id: string, updateCarDto: UpdateCarDto) {}
 }
