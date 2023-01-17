@@ -7,7 +7,7 @@ import { PokemonService } from './pokemon.service';
 //* controllers *//
 import { PokemonController } from './pokemon.controller';
 
-//* enties *//
+//* entities *//
 import { Pokemon, PokemonSchema } from './entities/pokemon.entity';
 
 @Module({
@@ -21,5 +21,6 @@ import { Pokemon, PokemonSchema } from './entities/pokemon.entity';
       },
     ]),
   ],
+  exports: [PokemonService],
 })
 export class PokemonModule {}
