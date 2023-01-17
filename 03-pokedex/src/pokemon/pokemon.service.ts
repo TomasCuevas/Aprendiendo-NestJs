@@ -9,6 +9,7 @@ import { isValidObjectId, Model } from 'mongoose';
 
 //* dtos *//
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 //* entities *//
 import { Pokemon } from './entities/pokemon.entity';
@@ -36,8 +37,10 @@ export class PokemonService {
     await this.pokemonModel.insertMany(createPokemonDto);
   }
 
-  findAll() {
-    return this.pokemonModel.find().limit(5).skip(5);
+  findAll(paginationDto: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    return this.pokemonModel.find().limit(limit).skip(offset).select('-__v');
   }
 
   async findOne(term: string) {
