@@ -32,6 +32,10 @@ export class PokemonService {
     }
   }
 
+  async createMany(createPokemonDto: CreatePokemonDto[]) {
+    await this.pokemonModel.insertMany(createPokemonDto);
+  }
+
   findAll() {
     return `This action returns all pokemon`;
   }
@@ -89,6 +93,10 @@ export class PokemonService {
     }
 
     return;
+  }
+
+  async removeMany() {
+    await this.pokemonModel.deleteMany({});
   }
 
   private handleExceptions(error: any) {

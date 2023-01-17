@@ -14,21 +14,25 @@ export class SeedService {
   constructor(private readonly pokemonService: PokemonService) {}
 
   async executeSeed() {
+    await this.pokemonService.removeMany();
+
     const { data } = await this.axios.get<IPokeResponse>(
-      'https://pokeapi.co/api/v2/pokemon?limit=10',
+      'https://pokeapi.co/api/v2/pokemon?limit=650',
     );
 
-    data.results.map((pokemon) => {
-      const name = pokemon.name;
+    const pokemonToInsert: { name: string; no: number }[] = [];
+
+    data.results.forEach((pokemon) => {
+      const name = pokemon.name.toLocaleLowerCase();
       const no = +pokemon.url.split('/').at(-2);
 
-      this.pokemonService.create({ name, no });
-
-      return {
+      pokemonToInsert.push({
         name,
         no,
-      };
+      });
     });
+
+    await this.pokemonService.createMany(pokemonToInsert);
 
     return 'Seed executed';
   }
