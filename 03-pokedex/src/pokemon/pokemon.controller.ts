@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 
 //* custom pipes *//
@@ -13,6 +14,7 @@ import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id/parse-mongo-id
 
 //* dtos *//
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 //* services *//
 import { PokemonService } from './pokemon.service';
@@ -27,7 +29,8 @@ export class PokemonController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() paginationDto: PaginationDto) {
+    console.log(paginationDto);
     return this.pokemonService.findAll();
   }
 
