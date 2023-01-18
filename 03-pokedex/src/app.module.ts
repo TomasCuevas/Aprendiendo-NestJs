@@ -7,6 +7,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 //* env config *//
 import { EnvConfiguration } from './config/app.config';
 
+//* schema *//
+import { JoiValidationSchema } from './config/joi.validation';
+
 //* modules *//
 import { CommonModule } from './common/common.module';
 import { PokemonModule } from './pokemon/pokemon.module';
@@ -16,6 +19,7 @@ import { SeedModule } from './seed/seed.module';
   imports: [
     ConfigModule.forRoot({
       load: [EnvConfiguration],
+      validationSchema: JoiValidationSchema,
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
