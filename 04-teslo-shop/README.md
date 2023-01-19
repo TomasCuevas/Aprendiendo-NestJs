@@ -4,8 +4,26 @@
 
 # Teslo Api
 
-1. Levantar la base de datos
+1. Clonar proyecto
+
+2. Instalar las dependencias
+
+```
+  npm install
+```
+
+3. Renombrar el archivo **.env.template** a **.env**
+
+4. Rellenar las variables de entorno en el archivo **.env**
+
+5. Levantar la base de datos
 
 ```
   docker-compose up -d
+```
+
+6. Levantar la aplicacion en modo de desarrollo
+
+```
+  npm run start:dev
 ```
