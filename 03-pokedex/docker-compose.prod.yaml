@@ -21,7 +21,7 @@ services:
     #   - ./:/var/www/pokedex
 
   db:
-    image: mongo:5
+    image: mongo:5.0.0
     container_name: mongo-poke
     restart: always
     ports:
