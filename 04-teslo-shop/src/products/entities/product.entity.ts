@@ -48,7 +48,15 @@ export class Product {
   })
   gender: string;
 
+  @Column({
+    type: 'text',
+    array: true,
+    default: [],
+  })
+  tags: string[];
+
   @BeforeInsert()
+  @BeforeUpdate()
   checkSlugInsert() {
     if (!this.slug) {
       this.slug = this.title;
@@ -60,11 +68,11 @@ export class Product {
       .replaceAll("'", '');
   }
 
-  @BeforeUpdate()
-  checkSlugUpdate() {
-    this.slug = this.slug
-      .toLowerCase()
-      .replaceAll(' ', '_')
-      .replaceAll("'", '');
-  }
+  // @BeforeUpdate()
+  // checkSlugUpdate() {
+  //   this.slug = this.slug
+  //     .toLowerCase()
+  //     .replaceAll(' ', '_')
+  //     .replaceAll("'", '');
+  // }
 }
