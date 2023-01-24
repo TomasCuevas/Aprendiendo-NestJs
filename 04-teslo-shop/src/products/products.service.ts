@@ -146,6 +146,17 @@ export class ProductsService {
     await this.productRepository.remove(product);
   }
 
+  //! remove all
+  async removeAll() {
+    const query = this.productRepository.createQueryBuilder('product');
+
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
+
   private handleDBExceptions(error: any) {
     console.log(error);
 
