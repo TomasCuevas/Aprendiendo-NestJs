@@ -8,11 +8,11 @@ import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 
 //* entities *//
-import { Product } from './entities';
+import { Product, ProductImage } from './entities';
 
 @Module({
   controllers: [ProductsController],
   providers: [ProductsService],
-  imports: [TypeOrmModule.forFeature([Product])],
+  imports: [TypeOrmModule.forFeature([Product, ProductImage])],
 })
 export class ProductsModule {}
