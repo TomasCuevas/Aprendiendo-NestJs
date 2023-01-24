@@ -30,6 +30,7 @@ export class ProductsService {
     private readonly dataSource: DataSource,
   ) {}
 
+  //! create
   async create(createProductDto: CreateProductDto) {
     try {
       const { images = [], ...productDetails } = createProductDto;
@@ -49,6 +50,7 @@ export class ProductsService {
     }
   }
 
+  //! findAll
   async findAll({ limit = 10, offset = 0 }: PaginationDto) {
     const products = await this.productRepository.find({
       take: limit,
@@ -64,6 +66,7 @@ export class ProductsService {
     }));
   }
 
+  //! findOne
   async findOne(term: string) {
     let product: Product;
 
@@ -87,6 +90,7 @@ export class ProductsService {
     return product;
   }
 
+  //! findOne plain
   async findOnePlain(term: string) {
     const product = await this.findOne(term);
 
@@ -96,6 +100,7 @@ export class ProductsService {
     };
   }
 
+  //! update
   async update(id: string, updateProductDto: UpdateProductDto) {
     const { images, ...toUpdate } = updateProductDto;
 
@@ -109,16 +114,33 @@ export class ProductsService {
     }
 
     const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
     try {
-      await this.productRepository.save(product);
+      if (images) {
+        await queryRunner.manager.delete(ProductImage, { product: { id } });
 
-      return product;
+        product.images = images.map((image) =>
+          this.productImageRepository.create({ url: image }),
+        );
+      }
+
+      await queryRunner.manager.save(product);
+
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+
+      return this.findOnePlain(id);
     } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+
       this.handleDBExceptions(error);
     }
   }
 
+  //! remove
   async remove(id: string) {
     const product = await this.findOne(id);
     await this.productRepository.remove(product);

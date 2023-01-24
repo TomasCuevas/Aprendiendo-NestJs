@@ -21,21 +21,25 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  //! create
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
+  //! findAll
   @Get()
   findAll(@Query() paginationDTO: PaginationDto) {
     return this.productsService.findAll(paginationDTO);
   }
 
+  //! findOne
   @Get(':term')
   findOne(@Param('term') term: string) {
     return this.productsService.findOnePlain(term);
   }
 
+  //! update
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -44,6 +48,7 @@ export class ProductsController {
     return this.productsService.update(id, updateProductDto);
   }
 
+  //! remove
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.remove(id);
