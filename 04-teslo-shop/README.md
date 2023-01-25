@@ -27,3 +27,9 @@
 ```
   npm run start:dev
 ```
+
+7. Llenar la base de datos con la data semilla
+
+```
+ http://localhost:3000/api/seed
+```
