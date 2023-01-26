@@ -9,7 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
 //* helpers *//
-import { fileFilter } from './helpers';
+import { fileFilter, fileNamer } from './helpers';
 
 //* services *//
 import { FilesService } from './files.service';
@@ -22,9 +22,10 @@ export class FilesController {
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter: fileFilter,
-      limits: { fieldSize: 1024 },
+      // limits: { fieldSize: 1024 },
       storage: diskStorage({
-        destination: './static/uploads',
+        destination: './static/products',
+        filename: fileNamer,
       }),
     }),
   )
