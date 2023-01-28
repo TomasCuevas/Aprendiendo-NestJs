@@ -31,7 +31,6 @@ export class User {
   @Column({
     type: 'bool',
     default: true,
-    select: false,
   })
   isActive: boolean;
 
