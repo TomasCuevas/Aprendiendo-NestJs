@@ -1,8 +1,8 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export const GetRawHeaders = createParamDecorator(
-  (data, ctx: ExecutionContext) => {
-    const req = ctx.switchToHttp().getRequest();
+  (data, context: ExecutionContext) => {
+    const req = context.switchToHttp().getRequest();
     return req.rawHeaders;
   },
 );

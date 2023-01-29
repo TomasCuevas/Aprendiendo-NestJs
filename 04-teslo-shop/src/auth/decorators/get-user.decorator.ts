@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 
 export const GetUser = createParamDecorator(
-  (field: string, ctx: ExecutionContext) => {
-    const req = ctx.switchToHttp().getRequest();
+  (field: string, context: ExecutionContext) => {
+    const req = context.switchToHttp().getRequest();
     const user = req.user;
 
     if (!user) {
