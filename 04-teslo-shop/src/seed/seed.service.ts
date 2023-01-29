@@ -26,6 +26,7 @@ export class SeedService {
     return 'Seed executed';
   }
 
+  //! delete all
   private async deleteTable() {
     await this.productService.removeAll();
 
@@ -33,6 +34,7 @@ export class SeedService {
     await queryBuilder.delete().where({}).execute();
   }
 
+  //! insert users
   private async insertUsers() {
     const users = initialData.users;
     const insertPromises = [];
@@ -46,6 +48,7 @@ export class SeedService {
     return dbUser[0];
   }
 
+  //! insert products
   private async insertNewProduct(user: User) {
     this.productService.removeAll();
 
