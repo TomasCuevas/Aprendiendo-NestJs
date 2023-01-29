@@ -5,7 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto, LoginUserDto } from './dto';
 
 //* custom decorators *//
-import { GetUser } from './decorators';
+import { GetRawHeaders, GetUser } from './decorators';
 
 //* services *//
 import { AuthService } from './auth.service';
@@ -35,13 +35,18 @@ export class AuthController {
   testingPrivateRoute(
     // @Req() request: Express.Request
     @GetUser() user: User,
+    @GetUser('email') userEmail: User,
+    @GetRawHeaders() rawHeaders: string[],
   ) {
     // console.log(request.user);
+    // console.log(request.rawHeaders);
 
     return {
       ok: true,
       message: 'Hola Mundo Private',
       user,
+      userEmail,
+      rawHeaders,
     };
   }
 }
