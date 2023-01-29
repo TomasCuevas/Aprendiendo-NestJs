@@ -43,6 +43,13 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
+  //! check status
+  @Get('check-status')
+  @Auth()
+  checkAuthStatus(@GetUser() user: User) {
+    return this.authService.checkStatus(user);
+  }
+
   //! private route
   @Get('private')
   @UseGuards(AuthGuard())
