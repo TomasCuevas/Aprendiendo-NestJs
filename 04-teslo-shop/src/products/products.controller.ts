@@ -18,7 +18,10 @@ import { PaginationDto } from 'src/common/dto';
 import { ProductsService } from './products.service';
 
 //* custom decorators *//
-import { Auth } from '../auth/decorators';
+import { Auth, GetUser } from '../auth/decorators';
+
+//* entities *//
+import { User } from '../auth/entities';
 
 //* interfaces *//
 import { IValidRoles } from '../auth/interfaces/validRoles.interface';
@@ -30,8 +33,8 @@ export class ProductsController {
   //! create
   @Post()
   @Auth(IValidRoles.admin)
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  create(@Body() createProductDto: CreateProductDto, @GetUser() user: User) {
+    return this.productsService.create(createProductDto, user);
   }
 
   //! findAll
@@ -52,8 +55,9 @@ export class ProductsController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
+    @GetUser() user: User,
   ) {
-    return this.productsService.update(id, updateProductDto);
+    return this.productsService.update(id, updateProductDto, user);
   }
 
   //! remove
