@@ -7,11 +7,12 @@ import { SeedController } from './seed.controller';
 import { SeedService } from './seed.service';
 
 //* modules *//
-import { ProductsModule } from 'src/products/products.module';
+import { AuthModule } from '../auth/auth.module';
+import { ProductsModule } from '../products/products.module';
 
 @Module({
   controllers: [SeedController],
   providers: [SeedService],
-  imports: [ProductsModule],
+  imports: [ProductsModule, AuthModule],
 })
 export class SeedModule {}

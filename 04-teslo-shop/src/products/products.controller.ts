@@ -17,12 +17,19 @@ import { PaginationDto } from 'src/common/dto';
 //* services *//
 import { ProductsService } from './products.service';
 
+//* custom decorators *//
+import { Auth } from '../auth/decorators';
+
+//* interfaces *//
+import { IValidRoles } from '../auth/interfaces/validRoles.interface';
+
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   //! create
   @Post()
+  @Auth(IValidRoles.admin)
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
@@ -41,6 +48,7 @@ export class ProductsController {
 
   //! update
   @Patch(':id')
+  @Auth(IValidRoles.admin)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -50,6 +58,7 @@ export class ProductsController {
 
   //! remove
   @Delete(':id')
+  @Auth(IValidRoles.admin)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.remove(id);
   }
