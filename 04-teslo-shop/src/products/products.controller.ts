@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Query,
 } from '@nestjs/common';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
 //* dtos *//
 import { CreateProductDto, UpdateProductDto } from './dto';
@@ -21,11 +22,13 @@ import { ProductsService } from './products.service';
 import { Auth, GetUser } from '../auth/decorators';
 
 //* entities *//
+import { Product } from './entities';
 import { User } from '../auth/entities';
 
 //* interfaces *//
 import { IValidRoles } from '../auth/interfaces/validRoles.interface';
 
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -33,6 +36,14 @@ export class ProductsController {
   //! create
   @Post()
   @Auth(IValidRoles.admin)
+  @ApiResponse({
+    status: 201,
+    description: 'Product was created',
+    type: Product,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
   create(@Body() createProductDto: CreateProductDto, @GetUser() user: User) {
     return this.productsService.create(createProductDto, user);
   }

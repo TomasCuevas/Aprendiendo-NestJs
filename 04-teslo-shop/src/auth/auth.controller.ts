@@ -8,6 +8,7 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 
 //* dtos *//
 import { CreateUserDto, LoginUserDto } from './dto';
@@ -27,6 +28,7 @@ import { User } from './entities';
 //* interfaces *//
 import { IValidRoles } from './interfaces/validRoles.interface';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
