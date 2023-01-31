@@ -13,7 +13,7 @@ import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
 //* dtos *//
 import { CreateProductDto, UpdateProductDto } from './dto';
-import { PaginationDto } from 'src/common/dto';
+import { PaginationDto } from '../common/dto';
 
 //* services *//
 import { ProductsService } from './products.service';
