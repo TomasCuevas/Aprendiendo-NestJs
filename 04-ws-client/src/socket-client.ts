@@ -9,6 +9,7 @@ export const connectToServer = () => {
 
 const addListeners = (socket: Socket) => {
   const serverStatusLabel = document.getElementById("server-status");
+  const clientsUl = document.getElementById("clients-ul");
 
   socket.on("connect", () => {
     serverStatusLabel!.innerHTML = "Connected";
@@ -16,5 +17,16 @@ const addListeners = (socket: Socket) => {
 
   socket.on("disconnect", () => {
     serverStatusLabel!.innerHTML = "Disconnect";
+  });
+
+  socket.on("clients-updated", (clients: string[]) => {
+    let clientsHtml = "";
+    clients.forEach((clientId) => {
+      clientsHtml += `
+      <li>${clientId}</li>
+      `;
+    });
+
+    clientsUl!.innerHTML = clientsHtml;
   });
 };
