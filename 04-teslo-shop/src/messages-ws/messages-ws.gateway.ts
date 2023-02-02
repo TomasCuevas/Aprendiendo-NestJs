@@ -1,10 +1,14 @@
 import {
-  WebSocketGateway,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { SubscribeMessage } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+
+//* dtos *//
+import { NewMessageDto } from './dto';
 
 //* service *//
 import { MessagesWsService } from './messages-ws.service';
@@ -32,5 +36,10 @@ export class MessagesWsGateway
       'clients-updated',
       this.messagesWsService.getConnectedClients(),
     );
+  }
+
+  @SubscribeMessage('message-from-client')
+  handleMessageFromClient(client: Socket, payload: NewMessageDto) {
+    console.log(client.id, payload);
   }
 }
