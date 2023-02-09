@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 //* dtos *//
@@ -13,6 +14,9 @@ import { CreateTodoDto, UpdateTodoDto } from './dto';
 
 //* service *//
 import { TodoService } from './todo.service';
+
+//* entity *//
+import { Todo } from './entities';
 
 @Controller('todo')
 export class TodoController {
@@ -24,13 +28,13 @@ export class TodoController {
   }
 
   @Get()
-  findAll() {
+  findAll(): Todo[] {
     return this.todoService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.todoService.findOne(id);
   }
 
   @Patch(':id')
