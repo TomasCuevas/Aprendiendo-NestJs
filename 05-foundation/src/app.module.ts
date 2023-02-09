@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 
+//* modules *//
+import { TodoModule } from './todo/todo.module';
+
 @Module({
-  imports: [],
+  imports: [TodoModule],
   controllers: [],
   providers: [],
 })
