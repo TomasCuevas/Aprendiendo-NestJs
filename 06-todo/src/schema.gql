@@ -9,6 +9,6 @@ type Query {
   """Return a float number between 0 and 100"""
   randomNumber: Float!
 
-  """Return a number between 0 and 10"""
-  randomFromZeroTo: Int!
+  """Return a number between 0 and argument "TO" (default 10)"""
+  randomFromZeroTo(to: Int): Int!
 }
