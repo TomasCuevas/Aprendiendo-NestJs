@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 
 //* entity *//
 import { Todo } from './entity';
@@ -17,8 +17,9 @@ export class TodoResolver {
   }
 
   //! find one todo
-  findOne() {
-    return [];
+  @Query(() => Todo, { name: 'todo' })
+  findOne(@Args('id', { type: () => Int, nullable: false }) id: number): Todo {
+    return this.todoService.findOne(id);
   }
 
   //! create todo
