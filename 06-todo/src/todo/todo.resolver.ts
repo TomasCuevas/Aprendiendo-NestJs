@@ -6,8 +6,9 @@ import { Todo } from './entity';
 //* service *//
 import { TodoService } from './todo.service';
 
-//* dto-inputs *//
+//* dto-inputs-args *//
 import { CreateTodoInput, UpdateTodoInput } from './dto/inputs';
+import { StatusArgs } from './dto/args';
 
 @Resolver(() => Todo)
 export class TodoResolver {
@@ -15,8 +16,8 @@ export class TodoResolver {
 
   //! find all todos
   @Query(() => [Todo], { name: 'todos' })
-  findAll(): Todo[] {
-    return this.todoService.findAll();
+  findAll(@Args() statusArgs: StatusArgs): Todo[] {
+    return this.todoService.findAll(statusArgs);
   }
 
   //! find one todo

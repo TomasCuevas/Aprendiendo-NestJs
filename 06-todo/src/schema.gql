@@ -17,7 +17,7 @@ type Query {
 
   """Return a number between 0 and argument "TO" (default 10)"""
   randomFromZeroTo(to: Int): Int!
-  todos: [Todo!]!
+  todos(status: Boolean): [Todo!]!
   todo(id: Int!): Todo!
 }
 
