@@ -9,7 +9,7 @@ import { TodoService } from './todo.service';
 //* dto-inputs *//
 import { CreateTodoInput, UpdateTodoInput } from './dto/inputs';
 
-@Resolver()
+@Resolver(() => Todo)
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
 
@@ -35,5 +35,11 @@ export class TodoResolver {
   @Mutation(() => Todo, { name: 'updateTodo' })
   updateTodo(@Args('updateTodoInput') updateTodoInput: UpdateTodoInput) {
     return this.todoService.update(updateTodoInput);
+  }
+
+  //! remove todo
+  @Mutation(() => Boolean)
+  removeTodo(@Args('id', { type: () => Int }) id: number) {
+    return this.todoService.remove(id);
   }
 }
