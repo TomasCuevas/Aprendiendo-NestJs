@@ -7,7 +7,7 @@ import { Todo } from './entity';
 import { TodoService } from './todo.service';
 
 //* dto-inputs *//
-import { CreateTodoInput } from './dto/inputs';
+import { CreateTodoInput, UpdateTodoInput } from './dto/inputs';
 
 @Resolver()
 export class TodoResolver {
@@ -32,7 +32,8 @@ export class TodoResolver {
   }
 
   //! update todo
-  updateTodo() {
-    return;
+  @Mutation(() => Todo, { name: 'updateTodo' })
+  updateTodo(@Args('updateTodoInput') updateTodoInput: UpdateTodoInput) {
+    return this.todoService.update(updateTodoInput);
   }
 }
