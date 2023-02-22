@@ -10,6 +10,9 @@ import { TodoService } from './todo.service';
 import { CreateTodoInput, UpdateTodoInput } from './dto/inputs';
 import { StatusArgs } from './dto/args';
 
+//* types *//
+import { AggregationsType } from './types';
+
 @Resolver(() => Todo)
 export class TodoResolver {
   constructor(private readonly todoService: TodoService) {}
@@ -60,5 +63,16 @@ export class TodoResolver {
   @Query(() => Int, { name: 'completedTodos' })
   completedTodos() {
     return this.todoService.totalTodosCompleted;
+  }
+
+  //! flexible endpoint with total, completed and pending todos
+  @Query(() => AggregationsType)
+  aggregations(): AggregationsType {
+    return {
+      completed: this.todoService.totalTodosCompleted,
+      pending: this.todoService.totalTodosPending,
+      total: this.todoService.totalTodos,
+      totalTodosCompleted: this.todoService.totalTodosCompleted,
+    };
   }
 }
