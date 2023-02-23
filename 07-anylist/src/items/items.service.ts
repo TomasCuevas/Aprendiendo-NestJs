@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { CreateItemInput } from './dto/create-item.input';
-import { UpdateItemInput } from './dto/update-item.input';
+
+//* dto-inputs-args *//
+import { CreateItemInput, UpdateItemInput } from './dto/inputs';
+
+//* entity *//
+import { Item } from './entities/item.entity';
 
 @Injectable()
 export class ItemsService {
-  create(createItemInput: CreateItemInput) {
+  async create(createItemInput: CreateItemInput): Promise<Item> {
     return 'This action adds a new item';
   }
 
   findAll() {
-    return `This action returns all items`;
+    return [];
   }
 
   findOne(id: number) {
