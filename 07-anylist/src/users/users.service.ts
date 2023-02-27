@@ -3,6 +3,7 @@ import {
   BadRequestException,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 //* entity *//
 import { User } from './entities/user.entity';
 
-//* dto-input-params *//
+//* dto-inputs-params *//
 import { CreateUserInput, UpdateUserInput } from './dto/input';
 import { SignupInput } from '../auth/dto/inputs/signup.input';
 
@@ -41,9 +42,9 @@ export class UsersService {
 
   async findOneByEmail(email: string): Promise<User> {
     try {
-      return this.usersReposity.findOneByOrFail({ email });
+      return await this.usersReposity.findOneByOrFail({ email });
     } catch (error) {
-      this.handleDBErrors(error);
+      throw new NotFoundException(`User with email '${email}' not found.`);
     }
   }
 
