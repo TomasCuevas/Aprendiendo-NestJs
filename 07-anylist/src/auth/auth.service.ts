@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 //* dto-inputs-params *//
-import { SignupInput } from './dto/inputs';
+import { LoginInput, SignupInput } from './dto/inputs';
 
 //* types *//
 import { AuthResponse } from './types';
@@ -16,6 +16,18 @@ export class AuthService {
   async signup(signupInput: SignupInput): Promise<AuthResponse> {
     const user = await this.usersService.create(signupInput);
 
+    const token = 'abc123';
+
+    return {
+      token,
+      user,
+    };
+  }
+
+  async login(loginInput: LoginInput): Promise<AuthResponse> {
+    const { email, password } = loginInput;
+
+    const user = await this.usersService.findOneByEmail(email);
     const token = 'abc123';
 
     return {

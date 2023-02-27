@@ -20,7 +20,7 @@ export class UsersResolver {
 
   @Query(() => User, { name: 'user' })
   findOne(@Args('id', { type: () => ID }) id: string) {
-    return this.usersService.findOne(id);
+    throw new Error('Not implemented');
   }
 
   // @Mutation(() => User)
