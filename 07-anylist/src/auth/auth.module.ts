@@ -9,6 +9,9 @@ import { AuthService } from './auth.service';
 //* resolver *//
 import { AuthResolver } from './auth.resolver';
 
+//* strategies *//
+import { JwtStrategy } from './strategies';
+
 //* modules *//
 import { UsersModule } from '../users/users.module';
 
@@ -28,6 +31,7 @@ import { UsersModule } from '../users/users.module';
     }),
     UsersModule,
   ],
-  providers: [AuthResolver, AuthService],
+  providers: [AuthResolver, AuthService, JwtStrategy],
+  exports: [JwtStrategy, PassportModule, JwtModule],
 })
 export class AuthModule {}
