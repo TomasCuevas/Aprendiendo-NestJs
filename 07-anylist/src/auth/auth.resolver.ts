@@ -13,6 +13,12 @@ import { AuthResponse } from './types';
 //* guards *//
 import { JwtAuthGuard } from './guards';
 
+//* decorators *//
+import { CurrentUser } from './decorators';
+
+//* entites *//
+import { User } from 'src/users/entities';
+
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
@@ -36,7 +42,9 @@ export class AuthResolver {
   //! revalidate resolver
   @Query(() => AuthResponse, { name: 'revalidate' })
   @UseGuards(JwtAuthGuard)
-  async revalidateToken(): Promise<AuthResponse> {
+  async revalidateToken(@CurrentUser() user: User): Promise<AuthResponse> {
+    console.log(user);
+
     throw new Error('Method revalidate not implemented.');
   }
 }
