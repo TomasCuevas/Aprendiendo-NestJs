@@ -19,6 +19,9 @@ import { CurrentUser } from './decorators';
 //* entites *//
 import { User } from 'src/users/entities';
 
+//* enums *//
+import { ValidRoles } from './enums';
+
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
@@ -42,7 +45,9 @@ export class AuthResolver {
   //! revalidate resolver
   @Query(() => AuthResponse, { name: 'revalidate' })
   @UseGuards(JwtAuthGuard)
-  revalidateToken(@CurrentUser() user: User): AuthResponse {
+  revalidateToken(
+    @CurrentUser([ValidRoles.admin, ValidRoles.user]) user: User,
+  ): AuthResponse {
     return this.authService.revalidateUser(user);
   }
 }
