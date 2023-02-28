@@ -22,6 +22,7 @@ export class AuthService {
     return this.jwtService.sign({ id: userId });
   }
 
+  ///! signup service
   async signup(signupInput: SignupInput): Promise<AuthResponse> {
     const user = await this.usersService.create(signupInput);
     const token = this.getJwtToken(user.id);
@@ -32,6 +33,7 @@ export class AuthService {
     };
   }
 
+  //! login service
   async login(loginInput: LoginInput): Promise<AuthResponse> {
     const { email, password } = loginInput;
 
