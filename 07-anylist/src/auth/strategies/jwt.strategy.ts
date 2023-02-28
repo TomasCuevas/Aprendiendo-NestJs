@@ -6,18 +6,28 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 //* entity *//
 import { User } from '../../users/entities';
 
+//* services *//
+import { AuthService } from '../auth.service';
+
+//* interfaces *//
+import { JwtPayload } from '../interfaces';
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(configService: ConfigService) {
+  constructor(
+    configService: ConfigService,
+    private readonly authService: AuthService,
+  ) {
     super({
       secretOrKey: configService.get('JWT_SECRET'),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
 
-  async validate(payload: any): Promise<User> {
-    console.log(payload);
+  async validate(payload: JwtPayload): Promise<User> {
+    const { id } = payload;
+    const user = await this.authService.validateUser(id);
 
-    throw new UnauthorizedException('Token not valid.');
+    return user;
   }
 }

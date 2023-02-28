@@ -24,6 +24,7 @@ export class UsersService {
     @InjectRepository(User) private readonly usersReposity: Repository<User>,
   ) {}
 
+  //! create user
   async create(signupInput: SignupInput): Promise<User> {
     try {
       const newUser = this.usersReposity.create({
@@ -36,10 +37,12 @@ export class UsersService {
     }
   }
 
+  //! find all users
   async findAll(): Promise<User[]> {
     return [];
   }
 
+  //! find user by email
   async findOneByEmail(email: string): Promise<User> {
     try {
       return await this.usersReposity.findOneByOrFail({ email });
@@ -48,10 +51,21 @@ export class UsersService {
     }
   }
 
+  //! find user by id
+  async findOneById(id: string): Promise<User> {
+    try {
+      return await this.usersReposity.findOneByOrFail({ id });
+    } catch (error) {
+      throw new NotFoundException(`User with id '${id}' not found.`);
+    }
+  }
+
+  //! update user
   update(id: number, updateUserInput: UpdateUserInput) {
     return `This action updates a #${id} user`;
   }
 
+  //! block user
   block(id: string) {
     throw new Error('block method not implemented');
   }
