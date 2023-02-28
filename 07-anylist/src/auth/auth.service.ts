@@ -57,7 +57,7 @@ export class AuthService {
     };
   }
 
-  //! validate service
+  //! validate user for id service
   async validateUser(id: string): Promise<User> {
     const user = await this.usersService.findOneById(id);
     if (!user.isActive) {
@@ -67,5 +67,15 @@ export class AuthService {
     delete user.password;
 
     return user;
+  }
+
+  //! revalidate user service
+  revalidateUser(user: User): AuthResponse {
+    const token = this.getJwtToken(user.id);
+
+    return {
+      token,
+      user,
+    };
   }
 }

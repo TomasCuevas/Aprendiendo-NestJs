@@ -42,9 +42,7 @@ export class AuthResolver {
   //! revalidate resolver
   @Query(() => AuthResponse, { name: 'revalidate' })
   @UseGuards(JwtAuthGuard)
-  async revalidateToken(@CurrentUser() user: User): Promise<AuthResponse> {
-    console.log(user);
-
-    throw new Error('Method revalidate not implemented.');
+  revalidateToken(@CurrentUser() user: User): AuthResponse {
+    return this.authService.revalidateUser(user);
   }
 }
