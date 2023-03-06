@@ -8,7 +8,7 @@ import { User } from './entities';
 
 //* dto-input-args *//
 import { CreateUserInput, UpdateUserInput } from './dto/input';
-import { ValidRolesArgs } from './dto/args/valid-roles.enum';
+import { ValidRolesArgs } from './dto/args';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -17,7 +17,6 @@ export class UsersResolver {
   //! find all users
   @Query(() => [User], { name: 'users' })
   findAll(@Args() validRoles: ValidRolesArgs): Promise<User[]> {
-    console.log({ validRoles });
     return this.usersService.findAll();
   }
 
