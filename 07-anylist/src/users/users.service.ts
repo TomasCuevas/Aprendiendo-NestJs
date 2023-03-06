@@ -9,13 +9,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-//* entity *//
+//* entities *//
 import { User } from './entities/user.entity';
 
 //* enums *//
 import { ValidRoles } from '../auth/enums';
 
-//* dto-inputs-params *//
+//* dto-inputs-args *//
 import { CreateUserInput, UpdateUserInput } from './dto/input';
 import { SignupInput } from '../auth/dto/inputs/signup.input';
 
@@ -75,8 +75,11 @@ export class UsersService {
   }
 
   //! block user
-  block(id: string) {
-    throw new Error('block method not implemented');
+  async block(id: string): Promise<User> {
+    const userToBlock = await this.usersReposity.findOneBy({ id });
+    userToBlock.isActive = false;
+
+    return await this.usersReposity.save(userToBlock);
   }
 
   private handleDBErrors(error: any): never {

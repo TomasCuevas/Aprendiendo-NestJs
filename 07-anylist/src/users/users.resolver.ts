@@ -1,10 +1,10 @@
 import { UseGuards, ParseUUIDPipe } from '@nestjs/common';
 import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 
-//* service *//
+//* services *//
 import { UsersService } from './users.service';
 
-//* entity *//
+//* entities *//
 import { User } from './entities';
 
 //* dto-input-args *//
@@ -47,8 +47,12 @@ export class UsersResolver {
   //   return this.usersService.update(updateUserInput.id, updateUserInput);
   // }
 
-  @Mutation(() => User)
-  blockUser(@Args('id', { type: () => ID }) id: string) {
+  //! block user
+  @Mutation(() => User, { name: 'blockUser' })
+  blockUser(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+    @CurrentUser([ValidRoles.admin]) user: User,
+  ) {
     return this.usersService.block(id);
   }
 }
