@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, ParseUUIDPipe } from '@nestjs/common';
 import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 
 //* service *//
@@ -33,9 +33,13 @@ export class UsersResolver {
     return this.usersService.findAll(validRoles.roles);
   }
 
+  //! find user by id
   @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => ID }) id: string) {
-    throw new Error('Not implemented');
+  findOne(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+    @CurrentUser([ValidRoles.admin]) user: User,
+  ) {
+    return this.usersService.findOneById(id);
   }
 
   // @Mutation(() => User)
