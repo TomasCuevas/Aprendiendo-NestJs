@@ -12,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 //* entity *//
 import { User } from './entities/user.entity';
 
-//* enum *//
+//* enums *//
 import { ValidRoles } from '../auth/enums';
 
 //* dto-inputs-params *//

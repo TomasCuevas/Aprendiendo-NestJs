@@ -34,6 +34,5 @@ export const CurrentUser = createParamDecorator(
     throw new ForbiddenException(
       `User '${user.fullName}' need a valid role [${roles}]`,
     );
-    return user;
   },
 );
