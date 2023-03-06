@@ -12,6 +12,9 @@ import * as bcrypt from 'bcrypt';
 //* entity *//
 import { User } from './entities/user.entity';
 
+//* enum *//
+import { ValidRoles } from '../auth/enums';
+
 //* dto-inputs-params *//
 import { CreateUserInput, UpdateUserInput } from './dto/input';
 import { SignupInput } from '../auth/dto/inputs/signup.input';
@@ -38,8 +41,14 @@ export class UsersService {
   }
 
   //! find all users
-  async findAll(): Promise<User[]> {
-    return [];
+  async findAll(roles: ValidRoles[]): Promise<User[]> {
+    if (roles.length === 0) return this.usersReposity.find();
+
+    return this.usersReposity
+      .createQueryBuilder()
+      .andWhere('ARRAY[roles] && ARRAY[:...roles]')
+      .setParameter('roles', roles)
+      .getMany();
   }
 
   //! find user by email
