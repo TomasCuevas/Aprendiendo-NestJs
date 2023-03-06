@@ -8,6 +8,7 @@ import { UsersService } from './users.service';
 import { User } from './entities';
 
 //* dto-input-args *//
+import { UpdateUserInput } from './dto/input';
 import { ValidRolesArgs } from './dto/args';
 
 //* guards *//
@@ -42,10 +43,13 @@ export class UsersResolver {
     return this.usersService.findOneById(id);
   }
 
-  // @Mutation(() => User)
-  // updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-  //   return this.usersService.update(updateUserInput.id, updateUserInput);
-  // }
+  @Mutation(() => User, { name: 'updateUser' })
+  async updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    @CurrentUser([ValidRoles.admin]) user: User,
+  ): Promise<User> {
+    return this.usersService.update(updateUserInput.id, updateUserInput, user);
+  }
 
   //! block user
   @Mutation(() => User, { name: 'blockUser' })

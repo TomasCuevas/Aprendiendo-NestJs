@@ -70,8 +70,20 @@ export class UsersService {
   }
 
   //! update user
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(
+    id: string,
+    updateUserInput: UpdateUserInput,
+    updateBy: User,
+  ): Promise<User> {
+    try {
+      const user = await this.usersReposity.preload({ ...updateUserInput, id });
+
+      user.lastUpdateBy = updateBy;
+
+      return await this.usersReposity.save(user);
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
   }
 
   //! block user
