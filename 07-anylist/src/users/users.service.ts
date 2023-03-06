@@ -16,7 +16,7 @@ import { User } from './entities/user.entity';
 import { ValidRoles } from '../auth/enums';
 
 //* dto-inputs-args *//
-import { CreateUserInput, UpdateUserInput } from './dto/input';
+import { UpdateUserInput } from './dto/input';
 import { SignupInput } from '../auth/dto/inputs/signup.input';
 
 @Injectable()
@@ -75,9 +75,10 @@ export class UsersService {
   }
 
   //! block user
-  async block(id: string): Promise<User> {
+  async block(id: string, updateBy: User): Promise<User> {
     const userToBlock = await this.usersReposity.findOneBy({ id });
     userToBlock.isActive = false;
+    userToBlock.lastUpdateBy = updateBy;
 
     return await this.usersReposity.save(userToBlock);
   }
