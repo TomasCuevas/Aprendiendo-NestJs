@@ -58,7 +58,7 @@ export class ItemsService {
     await this.findOne(id, updateBy);
     const item = await this.itemsRepository.preload(updateItemInput);
 
-    return this.itemsRepository.save(item);
+    return await this.itemsRepository.save(item);
   }
 
   async remove(id: string, deleteBy: User): Promise<Item> {
