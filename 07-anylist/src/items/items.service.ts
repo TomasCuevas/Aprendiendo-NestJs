@@ -28,8 +28,14 @@ export class ItemsService {
     return newItem;
   }
 
-  async findAll(): Promise<Item[]> {
-    return this.itemsRepository.find();
+  async findAll(user: User): Promise<Item[]> {
+    return await this.itemsRepository.find({
+      where: {
+        user: {
+          id: user.id,
+        },
+      },
+    });
   }
 
   async findOne(id: string): Promise<Item> {
