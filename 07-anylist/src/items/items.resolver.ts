@@ -7,8 +7,8 @@ import { ItemsService } from './items.service';
 //* dto-inputs-args *//
 import { CreateItemInput, UpdateItemInput } from './dto/inputs';
 
-//* entity *//
-import { Item } from './entities/item.entity';
+//* entities *//
+import { Item } from './entities';
 
 @Resolver(() => Item)
 export class ItemsResolver {

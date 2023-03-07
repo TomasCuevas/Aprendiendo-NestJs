@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-//* resolver *//
+//* resolvers *//
 import { ItemsResolver } from './items.resolver';
 
-//* service *//
+//* services *//
 import { ItemsService } from './items.service';
 
-//* entity *//
-import { Item } from './entities/item.entity';
+//* entities *//
+import { Item } from './entities';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Item])],

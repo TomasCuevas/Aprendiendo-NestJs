@@ -5,8 +5,8 @@ import { Repository } from 'typeorm';
 //* dto-inputs-args *//
 import { CreateItemInput, UpdateItemInput } from './dto/inputs';
 
-//* entity *//
-import { Item } from './entities/item.entity';
+//* entities *//
+import { Item } from './entities';
 
 @Injectable()
 export class ItemsService {
