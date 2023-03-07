@@ -38,19 +38,28 @@ export class ItemsResolver {
   @Query(() => Item, { name: 'item' })
   findOne(
     @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+    @CurrentUser() user: User,
   ): Promise<Item> {
-    return this.itemsService.findOne(id);
+    return this.itemsService.findOne(id, user);
   }
 
   @Mutation(() => Item)
   async updateItem(
     @Args('updateItemInput') updateItemInput: UpdateItemInput,
+    @CurrentUser() updateBy: User,
   ): Promise<Item> {
-    return this.itemsService.update(updateItemInput.id, updateItemInput);
+    return this.itemsService.update(
+      updateItemInput.id,
+      updateItemInput,
+      updateBy,
+    );
   }
 
   @Mutation(() => Item)
-  async removeItem(@Args('id', { type: () => ID }) id: string): Promise<Item> {
-    return this.itemsService.remove(id);
+  async removeItem(
+    @Args('id', { type: () => ID }) id: string,
+    @CurrentUser() deleteBy: User,
+  ): Promise<Item> {
+    return this.itemsService.remove(id, deleteBy);
   }
 }

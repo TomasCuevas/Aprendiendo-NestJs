@@ -38,22 +38,31 @@ export class ItemsService {
     });
   }
 
-  async findOne(id: string): Promise<Item> {
-    const item = await this.itemsRepository.findOneBy({ id });
-    if (!item) throw new NotFoundException(`Item with id: ${id} not found.`);
+  async findOne(id: string, user: User): Promise<Item> {
+    const item = await this.itemsRepository.findOneBy({
+      id,
+      user: { id: user.id },
+    });
+    if (!item) {
+      throw new NotFoundException(`Item with id: ${id} not found.`);
+    }
 
     return item;
   }
 
-  async update(id: string, updateItemInput: UpdateItemInput): Promise<Item> {
-    await this.findOne(id);
+  async update(
+    id: string,
+    updateItemInput: UpdateItemInput,
+    updateBy: User,
+  ): Promise<Item> {
+    await this.findOne(id, updateBy);
     const item = await this.itemsRepository.preload(updateItemInput);
 
     return this.itemsRepository.save(item);
   }
 
-  async remove(id: string): Promise<Item> {
-    const item = await this.findOne(id);
+  async remove(id: string, deleteBy: User): Promise<Item> {
+    const item = await this.findOne(id, deleteBy);
     await this.itemsRepository.remove(item);
 
     return { ...item, id };
