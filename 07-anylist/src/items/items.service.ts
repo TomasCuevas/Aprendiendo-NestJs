@@ -7,6 +7,7 @@ import { CreateItemInput, UpdateItemInput } from './dto/inputs';
 
 //* entities *//
 import { Item } from './entities';
+import { User } from '../users/entities';
 
 @Injectable()
 export class ItemsService {
@@ -14,8 +15,14 @@ export class ItemsService {
     @InjectRepository(Item) private readonly itemsRepository: Repository<Item>,
   ) {}
 
-  async create(createItemInput: CreateItemInput): Promise<Item> {
-    const newItem = this.itemsRepository.create(createItemInput);
+  async create(
+    createItemInput: CreateItemInput,
+    createBy: User,
+  ): Promise<Item> {
+    const newItem = this.itemsRepository.create({
+      ...createItemInput,
+      user: createBy,
+    });
     await this.itemsRepository.save(newItem);
 
     return newItem;
