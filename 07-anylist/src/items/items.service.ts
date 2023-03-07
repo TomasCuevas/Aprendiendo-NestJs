@@ -15,6 +15,7 @@ export class ItemsService {
     @InjectRepository(Item) private readonly itemsRepository: Repository<Item>,
   ) {}
 
+  //! create item
   async create(
     createItemInput: CreateItemInput,
     createBy: User,
@@ -28,6 +29,7 @@ export class ItemsService {
     return newItem;
   }
 
+  //! find all items by user
   async findAll(user: User): Promise<Item[]> {
     return await this.itemsRepository.find({
       where: {
@@ -38,6 +40,7 @@ export class ItemsService {
     });
   }
 
+  //! find one item by user
   async findOne(id: string, user: User): Promise<Item> {
     const item = await this.itemsRepository.findOneBy({
       id,
@@ -50,6 +53,7 @@ export class ItemsService {
     return item;
   }
 
+  //! update item
   async update(
     id: string,
     updateItemInput: UpdateItemInput,
@@ -61,10 +65,18 @@ export class ItemsService {
     return await this.itemsRepository.save(item);
   }
 
+  //! remove item
   async remove(id: string, deleteBy: User): Promise<Item> {
     const item = await this.findOne(id, deleteBy);
     await this.itemsRepository.remove(item);
 
     return { ...item, id };
+  }
+
+  //! items count by user
+  async itemCountByUser(user: User): Promise<number> {
+    return await this.itemsRepository.count({
+      where: { user: { id: user.id } },
+    });
   }
 }

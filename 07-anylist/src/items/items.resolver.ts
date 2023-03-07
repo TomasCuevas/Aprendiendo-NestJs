@@ -22,6 +22,7 @@ import { CurrentUser } from '../auth/decorators';
 export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
+  //! create item
   @Mutation(() => Item, { name: 'createItem' })
   async createItem(
     @Args('createItemInput') createItemInput: CreateItemInput,
@@ -30,11 +31,13 @@ export class ItemsResolver {
     return this.itemsService.create(createItemInput, createBy);
   }
 
+  //! find all items
   @Query(() => [Item], { name: 'items' })
   async findAll(@CurrentUser() user: User): Promise<Item[]> {
     return this.itemsService.findAll(user);
   }
 
+  //! find one item
   @Query(() => Item, { name: 'item' })
   findOne(
     @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
@@ -43,6 +46,7 @@ export class ItemsResolver {
     return this.itemsService.findOne(id, user);
   }
 
+  //! update item
   @Mutation(() => Item)
   async updateItem(
     @Args('updateItemInput') updateItemInput: UpdateItemInput,
@@ -55,6 +59,7 @@ export class ItemsResolver {
     );
   }
 
+  //! remove item
   @Mutation(() => Item)
   async removeItem(
     @Args('id', { type: () => ID }) id: string,
