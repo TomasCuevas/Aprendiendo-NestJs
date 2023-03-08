@@ -16,7 +16,7 @@ type User {
 type Item {
   id: ID!
   name: String!
-  quantity: Float!
+  quantityUnits: String
   user: User!
 }
 
@@ -72,11 +72,11 @@ input UpdateUserInput {
 
 input CreateItemInput {
   name: String!
-  quantity: Float!
+  quantityUnits: String
 }
 
 input UpdateItemInput {
   name: String
-  quantity: Float
+  quantityUnits: String
   id: ID!
 }

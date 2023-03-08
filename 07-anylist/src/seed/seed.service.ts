@@ -7,6 +7,12 @@ import { Repository } from 'typeorm';
 import { Item } from '../items/entities';
 import { User } from '../users/entities';
 
+//* services *//
+import { UsersService } from '../users/users.service';
+
+//* data *//
+import { SEED_USERS } from './data/seed-data';
+
 @Injectable()
 export class SeedService {
   private isProd: boolean;
@@ -15,6 +21,7 @@ export class SeedService {
     private readonly configService: ConfigService,
     @InjectRepository(Item) private readonly itemsRepository: Repository<Item>,
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    private readonly usersService: UsersService,
   ) {
     this.isProd = configService.get('STATE') === 'prod';
   }
@@ -26,6 +33,7 @@ export class SeedService {
     }
 
     await this.deleteDatabase();
+    await this.loadUsers();
 
     return true;
   }
@@ -43,5 +51,16 @@ export class SeedService {
       .delete()
       .where({})
       .execute();
+  }
+
+  //! load users on database
+  async loadUsers(): Promise<User> {
+    const users = [];
+
+    for (const user of SEED_USERS) {
+      users.push(await this.usersService.create(user));
+    }
+
+    return users[0];
   }
 }
