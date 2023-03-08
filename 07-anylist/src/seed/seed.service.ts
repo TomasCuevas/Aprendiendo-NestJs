@@ -9,7 +9,6 @@ import { User } from '../users/entities';
 
 //* services *//
 import { UsersService } from '../users/users.service';
-import { ItemsService } from '../items/items.service';
 
 //* data *//
 import { SEED_USERS, SEED_ITEMS } from './data/seed-data';
