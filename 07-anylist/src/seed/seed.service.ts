@@ -9,9 +9,10 @@ import { User } from '../users/entities';
 
 //* services *//
 import { UsersService } from '../users/users.service';
+import { ItemsService } from '../items/items.service';
 
 //* data *//
-import { SEED_USERS } from './data/seed-data';
+import { SEED_USERS, SEED_ITEMS } from './data/seed-data';
 
 @Injectable()
 export class SeedService {
@@ -33,7 +34,8 @@ export class SeedService {
     }
 
     await this.deleteDatabase();
-    await this.loadUsers();
+    const user = await this.loadUsers();
+    await this.loadItems(user);
 
     return true;
   }
@@ -62,5 +64,16 @@ export class SeedService {
     }
 
     return users[0];
+  }
+
+  //! load items on database
+  async loadItems(user: User): Promise<void> {
+    const items = [];
+
+    for (const item of SEED_ITEMS) {
+      items.push({ ...item, user });
+    }
+
+    this.itemsRepository.insert(items);
   }
 }
