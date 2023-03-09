@@ -39,7 +39,7 @@ export class ItemsResolver {
     @Args() paginationArgs: PaginationArgs,
     @Args() searchArgs: SearchArgs,
   ): Promise<Item[]> {
-    return this.itemsService.findAll(user, paginationArgs);
+    return this.itemsService.findAll(user, paginationArgs, searchArgs);
   }
 
   //! find one item
