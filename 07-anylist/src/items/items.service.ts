@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 //* dto-inputs-args *//
 import { CreateItemInput, UpdateItemInput } from './dto/inputs';
-import { PaginationArgs } from '../common/dto/args';
+import { PaginationArgs, SearchArgs } from '../common/dto/args';
 
 //* entities *//
 import { Item } from './entities';

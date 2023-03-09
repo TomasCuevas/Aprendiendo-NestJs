@@ -6,7 +6,7 @@ import { ItemsService } from './items.service';
 
 //* dto-inputs-args *//
 import { CreateItemInput, UpdateItemInput } from './dto/inputs';
-import { PaginationArgs } from '../common/dto/args';
+import { PaginationArgs, SearchArgs } from '../common/dto/args';
 
 //* entities *//
 import { Item } from './entities';
@@ -37,6 +37,7 @@ export class ItemsResolver {
   async findAll(
     @CurrentUser() user: User,
     @Args() paginationArgs: PaginationArgs,
+    @Args() searchArgs: SearchArgs,
   ): Promise<Item[]> {
     return this.itemsService.findAll(user, paginationArgs);
   }
