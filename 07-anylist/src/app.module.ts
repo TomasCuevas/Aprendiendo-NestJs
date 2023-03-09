@@ -18,6 +18,7 @@ import { CommonModule } from './common/common.module';
   imports: [
     ConfigModule.forRoot(),
 
+    //? Configuracion aplicando autorizacion/autenticacion
     GraphQLModule.forRootAsync({
       driver: ApolloDriver,
       imports: [AuthModule],
@@ -37,7 +38,7 @@ import { CommonModule } from './common/common.module';
       },
     }),
 
-    // TODO: Configuracion basica
+    //? Configuracion basica
     // GraphQLModule.forRoot<ApolloDriverConfig>({
     //   driver: ApolloDriver,
     //   playground: false,
