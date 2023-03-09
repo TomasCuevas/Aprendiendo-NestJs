@@ -16,10 +16,12 @@ import { ItemsService } from '../items/items.service';
 
 //* entities *//
 import { User } from './entities';
+import { Item } from '../items/entities';
 
 //* dto-input-args *//
 import { UpdateUserInput } from './dto/input';
 import { ValidRolesArgs } from './dto/args';
+import { PaginationArgs, SearchArgs } from '../common/dto/args';
 
 //* guards *//
 import { JwtAuthGuard } from '../auth/guards';
@@ -74,8 +76,23 @@ export class UsersResolver {
   }
 
   //! items count by user
+
   @ResolveField(() => Int, { name: 'itemCount' })
-  async itemCount(@Parent() user: User): Promise<number> {
+  async itemCount(
+    @CurrentUser([ValidRoles.admin]) adminUser: User,
+    @Parent() user: User,
+  ): Promise<number> {
     return await this.itemsService.itemCountByUser(user);
+  }
+
+  //! items by user
+  @ResolveField(() => [Item], { name: 'items' })
+  async getItemsByUser(
+    @CurrentUser([ValidRoles.admin]) adminUser: User,
+    @Parent() user: User,
+    @Args() paginationArgs: PaginationArgs,
+    @Args() searchArgs: SearchArgs,
+  ): Promise<Item[]> {
+    return await this.itemsService.findAll(user, paginationArgs, searchArgs);
   }
 }
