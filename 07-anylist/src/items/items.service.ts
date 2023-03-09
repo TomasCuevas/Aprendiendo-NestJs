@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 //* dto-inputs-args *//
 import { CreateItemInput, UpdateItemInput } from './dto/inputs';
+import { PaginationArgs } from '../common/dto/args';
 
 //* entities *//
 import { Item } from './entities';
@@ -30,8 +31,12 @@ export class ItemsService {
   }
 
   //! find all items by user
-  async findAll(user: User): Promise<Item[]> {
+  async findAll(user: User, paginationArgs: PaginationArgs): Promise<Item[]> {
+    const { limit, offset } = paginationArgs;
+
     return await this.itemsRepository.find({
+      take: limit,
+      skip: offset,
       where: {
         user: {
           id: user.id,
