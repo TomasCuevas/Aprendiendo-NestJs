@@ -89,4 +89,11 @@ export class ListsService {
 
     return { ...list, id };
   }
+
+  //! lists count by user
+  async listsCountByUser(user: User): Promise<number> {
+    return await this.listsRepository.count({
+      where: { user: { id: user.id } },
+    });
+  }
 }

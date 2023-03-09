@@ -79,7 +79,6 @@ export class UsersResolver {
   }
 
   //! items count by user
-
   @ResolveField(() => Int, { name: 'itemCount' })
   async itemCount(@Parent() user: User): Promise<number> {
     return await this.itemsService.itemCountByUser(user);
@@ -93,6 +92,12 @@ export class UsersResolver {
     @Args() searchArgs: SearchArgs,
   ): Promise<Item[]> {
     return await this.itemsService.findAll(user, paginationArgs, searchArgs);
+  }
+
+  //! lists count by user
+  @ResolveField(() => Int, { name: 'listCount' })
+  async listCount(@Parent() user: User): Promise<number> {
+    return await this.listsService.listsCountByUser(user);
   }
 
   //! lists by user
