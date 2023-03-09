@@ -10,8 +10,11 @@ import { ListItemService } from './list-item.service';
 //* entities *//
 import { ListItem } from './entities/list-item.entity';
 
+//* modules *//
+import { ListsModule } from '../lists/lists.module';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([ListItem])],
+  imports: [TypeOrmModule.forFeature([ListItem]), ListsModule],
   providers: [ListItemResolver, ListItemService],
   exports: [TypeOrmModule, ListItemService],
 })
