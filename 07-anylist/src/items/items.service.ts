@@ -25,9 +25,7 @@ export class ItemsService {
       ...createItemInput,
       user: createBy,
     });
-    await this.itemsRepository.save(newItem);
-
-    return newItem;
+    return await this.itemsRepository.save(newItem);
   }
 
   //! find all items by user

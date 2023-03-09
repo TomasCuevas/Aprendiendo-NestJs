@@ -10,6 +10,7 @@ import {
 
 //* entities *//
 import { Item } from '../../items/entities';
+import { List } from '../../lists/entities';
 
 @Entity()
 @ObjectType()
@@ -52,7 +53,9 @@ export class User {
   @Field(() => User, { nullable: true })
   lastUpdateBy?: User;
 
-  @OneToMany(() => Item, (item) => item.user, { lazy: true })
-  // @Field(() => [Item])
+  @OneToMany(() => Item, (item) => item.user)
   items: Item[];
+
+  @OneToMany(() => List, (list) => list.user)
+  lists: List[];
 }

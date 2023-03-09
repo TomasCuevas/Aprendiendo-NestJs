@@ -12,9 +12,10 @@ import { User } from './entities';
 
 //* modules *//
 import { ItemsModule } from '../items/items.module';
+import { ListsModule } from '../lists/lists.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), ItemsModule],
+  imports: [TypeOrmModule.forFeature([User]), ItemsModule, ListsModule],
   providers: [UsersResolver, UsersService],
   exports: [UsersService, TypeOrmModule],
 })

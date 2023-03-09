@@ -13,10 +13,12 @@ import {
 //* services *//
 import { UsersService } from './users.service';
 import { ItemsService } from '../items/items.service';
+import { ListsService } from '../lists/lists.service';
 
 //* entities *//
 import { User } from './entities';
 import { Item } from '../items/entities';
+import { List } from '../lists/entities';
 
 //* dto-input-args *//
 import { UpdateUserInput } from './dto/input';
@@ -38,6 +40,7 @@ export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,
     private itemsService: ItemsService,
+    private listsService: ListsService,
   ) {}
 
   //! find all users
@@ -78,21 +81,27 @@ export class UsersResolver {
   //! items count by user
 
   @ResolveField(() => Int, { name: 'itemCount' })
-  async itemCount(
-    @CurrentUser([ValidRoles.admin]) adminUser: User,
-    @Parent() user: User,
-  ): Promise<number> {
+  async itemCount(@Parent() user: User): Promise<number> {
     return await this.itemsService.itemCountByUser(user);
   }
 
   //! items by user
   @ResolveField(() => [Item], { name: 'items' })
   async getItemsByUser(
-    @CurrentUser([ValidRoles.admin]) adminUser: User,
     @Parent() user: User,
     @Args() paginationArgs: PaginationArgs,
     @Args() searchArgs: SearchArgs,
   ): Promise<Item[]> {
     return await this.itemsService.findAll(user, paginationArgs, searchArgs);
+  }
+
+  //! lists by user
+  @ResolveField(() => [List], { name: 'lists' })
+  async getListsByUser(
+    @Parent() user: User,
+    @Args() paginationArgs: PaginationArgs,
+    @Args() searchArgs: SearchArgs,
+  ): Promise<Item[]> {
+    return await this.listsService.findAll(user, paginationArgs, searchArgs);
   }
 }
