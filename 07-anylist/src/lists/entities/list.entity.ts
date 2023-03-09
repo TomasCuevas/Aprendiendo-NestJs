@@ -9,6 +9,7 @@ import {
 
 //* entities *//
 import { User } from '../../users/entities';
+import { ListItem } from '../../list-item/entities';
 
 @Entity({ name: 'lists' })
 @ObjectType()
@@ -25,4 +26,8 @@ export class List {
   @Index('usersId-list-index')
   @Field(() => User)
   user: User;
+
+  @ManyToOne(() => ListItem, (listItem) => listItem.list, { lazy: true })
+  @Field(() => [ListItem])
+  listItem: ListItem[];
 }

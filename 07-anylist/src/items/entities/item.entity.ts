@@ -4,11 +4,13 @@ import {
   Entity,
   Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 //* entities *//
 import { User } from '../../users/entities';
+import { ListItem } from '../../list-item/entities';
 
 @Entity({ name: 'items' })
 @ObjectType()
@@ -29,4 +31,8 @@ export class Item {
   @Index('userId-index')
   @Field(() => User)
   user: User;
+
+  @OneToMany(() => ListItem, (listItem) => listItem.item, { lazy: true })
+  @Field(() => [ListItem])
+  listItem: ListItem[];
 }

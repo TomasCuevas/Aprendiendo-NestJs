@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 //* entities *//
 import { List } from '../../lists/entities';
@@ -20,7 +20,10 @@ export class ListItem {
   @Field(() => Boolean)
   completed: boolean;
 
-  // list: List;
+  @ManyToOne(() => List, (list) => list.listItem, { lazy: true })
+  list: List;
 
-  // item: Item;
+  @ManyToOne(() => Item, (item) => item.listItem, { lazy: true })
+  @Field(() => Item)
+  item: Item;
 }
