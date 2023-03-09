@@ -12,9 +12,13 @@ import { ListItem } from './entities/list-item.entity';
 
 //* modules *//
 import { ListsModule } from '../lists/lists.module';
+import { forwardRef } from '@nestjs/common/utils';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ListItem]), ListsModule],
+  imports: [
+    TypeOrmModule.forFeature([ListItem]),
+    forwardRef(() => ListsModule),
+  ],
   providers: [ListItemResolver, ListItemService],
   exports: [TypeOrmModule, ListItemService],
 })

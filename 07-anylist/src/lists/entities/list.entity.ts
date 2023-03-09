@@ -4,6 +4,7 @@ import {
   Entity,
   Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -27,7 +28,9 @@ export class List {
   @Field(() => User)
   user: User;
 
-  @ManyToOne(() => ListItem, (listItem) => listItem.list, { lazy: true })
-  @Field(() => [ListItem])
+  @OneToMany(() => ListItem, (listItem) => listItem.list, {
+    lazy: true,
+  })
+  // @Field(() => [ListItem])
   listItem: ListItem[];
 }
