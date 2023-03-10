@@ -10,9 +10,17 @@ import { SeedService } from './seed.service';
 //* modules *//
 import { UsersModule } from '../users/users.module';
 import { ItemsModule } from '../items/items.module';
+import { ListsModule } from '../lists/lists.module';
+import { ListItemModule } from '../list-item/list-item.module';
 
 @Module({
-  imports: [ConfigModule, UsersModule, ItemsModule],
+  imports: [
+    ConfigModule,
+    ItemsModule,
+    ListItemModule,
+    ListsModule,
+    UsersModule,
+  ],
   providers: [SeedResolver, SeedService],
 })
 export class SeedModule {}

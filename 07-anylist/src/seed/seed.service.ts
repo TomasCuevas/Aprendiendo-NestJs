@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 //* entities *//
 import { Item } from '../items/entities';
 import { User } from '../users/entities';
+import { List } from '../lists/entities';
+import { ListItem } from '../list-item/entities';
 
 //* services *//
 import { UsersService } from '../users/users.service';
@@ -19,8 +21,11 @@ export class SeedService {
 
   constructor(
     private readonly configService: ConfigService,
-    @InjectRepository(Item) private readonly itemsRepository: Repository<Item>,
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    @InjectRepository(Item) private readonly itemsRepository: Repository<Item>,
+    @InjectRepository(List) private readonly listsRepository: Repository<List>,
+    @InjectRepository(ListItem)
+    private readonly listItemsRepository: Repository<ListItem>,
     private readonly usersService: UsersService,
   ) {
     this.isProd = configService.get('STATE') === 'prod';
@@ -41,7 +46,19 @@ export class SeedService {
 
   //! delete database
   async deleteDatabase() {
+    await this.listItemsRepository
+      .createQueryBuilder()
+      .delete()
+      .where({})
+      .execute();
+
     await this.itemsRepository
+      .createQueryBuilder()
+      .delete()
+      .where({})
+      .execute();
+
+    await this.listsRepository
       .createQueryBuilder()
       .delete()
       .where({})
