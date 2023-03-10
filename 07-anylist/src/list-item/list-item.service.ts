@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -65,8 +65,18 @@ export class ListItemService {
     return queryBuilder.getMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} listItem`;
+  //! find one list-item by id
+  async findOne(id: string, user: User): Promise<ListItem> {
+    const listItem = await this.listItemsRepository.findOneBy({
+      id,
+      list: { user: { id: user.id } },
+    });
+
+    if (!listItem) {
+      throw new NotFoundException(`List-item with id: ${id} not found.`);
+    }
+
+    return listItem;
   }
 
   update(id: number, updateListItemInput: UpdateListItemInput) {
