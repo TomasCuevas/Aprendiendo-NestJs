@@ -35,9 +35,8 @@ export class ListItemResolver {
   @Query(() => ListItem, { name: 'listItem' })
   findOne(
     @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
-    @CurrentUser() user: User,
   ): Promise<ListItem> {
-    return this.listItemService.findOne(id, user);
+    return this.listItemService.findOne(id);
   }
 
   //! update list-item

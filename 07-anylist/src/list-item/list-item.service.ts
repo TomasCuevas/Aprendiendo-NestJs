@@ -66,12 +66,8 @@ export class ListItemService {
   }
 
   //! find one list-item by id
-  async findOne(id: string, user: User): Promise<ListItem> {
-    const listItem = await this.listItemsRepository.findOneBy({
-      id,
-      list: { user: { id: user.id } },
-    });
-
+  async findOne(id: string): Promise<ListItem> {
+    const listItem = await this.listItemsRepository.findOneBy({ id });
     if (!listItem) {
       throw new NotFoundException(`List-item with id: ${id} not found.`);
     }
@@ -86,17 +82,18 @@ export class ListItemService {
   ): Promise<ListItem> {
     const { itemId, listId, ...rest } = updateListItemInput;
 
-    const listItem = await this.listItemsRepository.preload({
-      ...rest,
-      list: { id: listId },
-      item: { id: itemId },
-    });
+    const queryBuilder = this.listItemsRepository
+      .createQueryBuilder()
+      .update()
+      .set(rest)
+      .where('id = :id', { id });
 
-    if (!listItem) {
-      throw new NotFoundException(`List-item with id: ${id} not found.`);
-    }
+    if (listId) queryBuilder.set({ list: { id: listId } });
+    if (itemId) queryBuilder.set({ item: { id: itemId } });
 
-    return this.listItemsRepository.save(listItem);
+    await queryBuilder.execute();
+
+    return this.findOne(id);
   }
 
   remove(id: number) {
