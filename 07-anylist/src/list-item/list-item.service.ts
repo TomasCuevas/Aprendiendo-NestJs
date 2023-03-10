@@ -37,7 +37,9 @@ export class ListItemService {
       list: { id: listId },
     });
 
-    return this.listItemsRepository.save(newListItem);
+    await this.listItemsRepository.save(newListItem);
+
+    return this.findOne(newListItem.id);
   }
 
   //! find all list items by list
