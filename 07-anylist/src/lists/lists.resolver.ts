@@ -27,6 +27,7 @@ import { JwtAuthGuard } from '../auth/guards';
 import { List } from './entities';
 import { User } from '../users/entities';
 import { ListItem } from '../list-item/entities';
+import { Int } from '@nestjs/graphql';
 
 @Resolver(() => List)
 @UseGuards(JwtAuthGuard)
@@ -86,8 +87,19 @@ export class ListsResolver {
     return this.listsService.remove(id, deleteBy);
   }
 
+  //! list-items by list
   @ResolveField(() => [ListItem], { name: 'items' })
-  async getListItems(@Parent() list: List): Promise<ListItem[]> {
-    return this.listItemsService.findAll();
+  async getListItems(
+    @Parent() list: List,
+    @Args() paginationArgs: PaginationArgs,
+    @Args() searchArgs: SearchArgs,
+  ): Promise<ListItem[]> {
+    return this.listItemsService.findAll(list, paginationArgs, searchArgs);
+  }
+
+  //! list-items count by list
+  @ResolveField(() => Int, { name: 'totalItems' })
+  async listItemCount(@Parent() list: List): Promise<number> {
+    return this.listItemsService.listItemsCount(list);
   }
 }

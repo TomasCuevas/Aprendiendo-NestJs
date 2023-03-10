@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 //* dto-inputs-args *//
 import { CreateListItemInput, UpdateListItemInput } from './dto/inputs';
+import { PaginationArgs, SearchArgs } from '../common/dto/args';
 
 //* services *//
 import { ListsService } from '../lists/lists.service';
@@ -11,6 +12,7 @@ import { ListsService } from '../lists/lists.service';
 //* entities *//
 import { ListItem } from './entities';
 import { User } from '../users/entities';
+import { List } from '../lists/entities';
 
 @Injectable()
 export class ListItemService {
@@ -39,8 +41,28 @@ export class ListItemService {
   }
 
   //! find all list items by list
-  async findAll(): Promise<ListItem[]> {
-    return this.listItemsRepository.find();
+  async findAll(
+    list: List,
+    paginationArgs: PaginationArgs,
+    searchArgs: SearchArgs,
+  ): Promise<ListItem[]> {
+    const { limit, offset } = paginationArgs;
+    const { search } = searchArgs;
+
+    //? with queryBuilder
+    const queryBuilder = this.listItemsRepository
+      .createQueryBuilder()
+      .take(limit)
+      .skip(offset)
+      .where(`"listId" = :listId`, { listId: list.id });
+
+    if (search) {
+      queryBuilder.andWhere('LOWER(item.name) like :name', {
+        name: `%${search.toLowerCase()}%`,
+      });
+    }
+
+    return queryBuilder.getMany();
   }
 
   findOne(id: number) {
@@ -53,5 +75,10 @@ export class ListItemService {
 
   remove(id: number) {
     return `This action removes a #${id} listItem`;
+  }
+
+  //! list-items count by list
+  async listItemsCount(list: List): Promise<number> {
+    return this.listItemsRepository.count({ where: { list: { id: list.id } } });
   }
 }
