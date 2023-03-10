@@ -22,6 +22,7 @@ import { User } from '../users/entities';
 export class ListItemResolver {
   constructor(private readonly listItemService: ListItemService) {}
 
+  //! create list-item
   @Mutation(() => ListItem)
   async createListItem(
     @Args('createListItemInput') createListItemInput: CreateListItemInput,
@@ -39,15 +40,16 @@ export class ListItemResolver {
     return this.listItemService.findOne(id, user);
   }
 
-  // @Mutation(() => ListItem)
-  // updateListItem(
-  //   @Args('updateListItemInput') updateListItemInput: UpdateListItemInput,
-  // ) {
-  //   return this.listItemService.update(
-  //     updateListItemInput.id,
-  //     updateListItemInput,
-  //   );
-  // }
+  //! update list-item
+  @Mutation(() => ListItem, { name: 'updateListItem' })
+  async updateListItem(
+    @Args('updateListItemInput') updateListItemInput: UpdateListItemInput,
+  ): Promise<ListItem> {
+    return this.listItemService.update(
+      updateListItemInput.id,
+      updateListItemInput,
+    );
+  }
 
   // @Mutation(() => ListItem)
   // removeListItem(@Args('id', { type: () => Int }) id: number) {
