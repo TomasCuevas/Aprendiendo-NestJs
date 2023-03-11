@@ -57,6 +57,13 @@ import { ListItemModule } from './list-item/list-item.module';
       database: process.env.DB_NAME,
       synchronize: true,
       autoLoadEntities: true,
+      ssl:
+        process.env.STATE === 'prod'
+          ? {
+              rejectUnauthorized: false,
+              sslmode: 'require',
+            }
+          : (false as any),
     }),
     ItemsModule,
     UsersModule,
